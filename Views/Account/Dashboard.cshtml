@@ -1,0 +1,147 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@{ var count = 1;}
+
+@{
+    var listModel = new List<int>();
+    listModel.Add(AuthController.adminRole);
+    listModel.Add(AuthController.customerRole);
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(listModel);
+}
+
+<script type="text/javascript">
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Admin', 'Customer'],
+            datasets: [{
+                label: '# of Roles',
+                data: @Html.Raw(XLabels),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+
+<div class="d-flex align-items-center box-shadow border p-4 ml-4 mb-4">
+    @*@foreach (var item in Model.Response.AllUsers)
+        {*@
+    <div class="mr-4 border" style="width:150px;height:150px;overflow:hidden;border-radius:100%">
+        <img src="~/images/@AuthController.userReturned.Photo" asp-append-version="true" style="width:100%" />
+    </div>
+    <div class="">
+
+
+        <h1>@AuthController.userReturned.FirstName @AuthController.userReturned.LastName</h1>
+
+        <div>
+            <span class="user-details">
+                Job Role: User
+            </span>
+            <span class="user-details">Email: @AuthController.userReturned.Email</span>
+            <span class="user-details">Date Created: @AuthController.userReturned.DateCreated.ToShortDateString()</span>
+        </div>
+    </div>
+    @*}*@
+</div>
+
+
+@if(Model.Response.IsAdmin)
+{
+    <div class="container">
+        <canvas id="myChart" class="chart-design"></canvas>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email Handle</th>
+                </tr>
+            </thead>
+            @foreach (var user in Model.Response.AllUsers)
+            {
+                <tbody>
+                    <tr>
+                        <th scope="col">@count</th>
+                        <th scope="col">@user.FirstName</th>
+                        <th scope="col">@user.LastName</th>
+                        <th scope="col">@user.Email</th>
+                    </tr>
+                </tbody>
+
+                count++;
+            }
+        </table>
+
+        <div class="d-flex align-items-center box-shadow border p-4 mt-4 mb-4 ">
+            <div asp-validation-summary="ModelOnly"></div>
+            <form method="post" asp-action="Signup" asp-controller="Account" enctype="multipart/form-data">
+                <div class="d-flex align-items-center">
+                    <div class="mr-4">
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.LastName"></label>
+                            <input asp-for="AddUserRegister.LastName" class="form-control" />
+                            <span asp-validation-for="AddUserRegister.LastName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.FirstName"></label>
+                            <input asp-for="AddUserRegister.FirstName" class="form-control" />
+                            <span asp-validation-for="AddUserRegister.FirstName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.Email"></label>
+                            <input asp-for="AddUserRegister.Email" class="form-control" />
+                            <span asp-validation-for="AddUserRegister.Email"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.Password"></label>
+                            <input asp-for="AddUserRegister.Password" class="form-control" />
+                            <span asp-validation-for="AddUserRegister.Password"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.ConfirmPassword"></label>
+                            <input asp-for="AddUserRegister.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="AddUserRegister.ConfirmPassword"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRegister.Photo"></label>
+                            <input asp-for="AddUserRegister.Photo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div style="display: block; width: 100%;">
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+
+
+
+

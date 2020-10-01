@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<div class="container">
+    <h2 class="text-center">Login</h2><b />
+    <div class="d-flex align-items-center justify-content-center">
+        <div asp-validation-summary="ModelOnly"></div>
+        <form method="post" asp-action="Login" asp-controller="Account" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" placeholder="Last Name" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" placeholder="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+
+            <div>
+                <a class="nav-link text-dark" asp-area="Signup" asp-controller="Account" asp-action="Signup">Have you registered? Click this link to register</a>
+            </div>
+        </form>
+    </div>
+</div>
+

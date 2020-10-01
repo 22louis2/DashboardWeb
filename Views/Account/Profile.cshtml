@@ -1,0 +1,28 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="d-flex align-items-center box-shadow border p-4 ml-4 mb-4">
+    @foreach (var item in Model.Response.AllUsers)
+    {
+        <div class="mr-4 border" style="width:150px;height:150px;overflow:hidden;border-radius:100%">
+            <img src="~/images/@item.Photo" asp-append-version="true" style="width:100%" />
+        </div>
+        <div class="">
+
+
+            <h1>@item.FirstName @item.LastName</h1>
+
+            <div>
+                <span class="user-details">
+                    Job Role: User
+                </span>
+                <span class="user-details">Email: @item.Email</span>
+                <span class="user-details">Date Created: @item.DateCreated.ToShortDateString()</span>
+            </div>
+        </div>
+    }
+</div>
+
+
